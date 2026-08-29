@@ -40,53 +40,114 @@ function M.size(opts)
     M.dimension(opts.height or M.defaults.height, lines)
 end
 
+--- Calculate the position of a rectangle inside the editor.
+---@param position string
+---@param width integer
+---@param height integer
+---@param opts? { margin?: number, row_offset?: number, col_offset?: number }
+---@return integer row
+---@return integer col
+function M.position(position, width, height, opts)
+  opts = opts or {}
+
+  local columns, lines = M.editor_size()
+  local margin = opts.margin or 0
+
+  local positions = {
+    center = function()
+      return math.floor((lines - height) / 2),
+        math.floor((columns - width) / 2)
+    end,
+    top = function()
+      return margin, math.floor((columns - width) / 2)
+    end,
+    bottom = function()
+      return lines - height - margin, math.floor((columns - width) / 2)
+    end,
+    left = function()
+      return math.floor((lines - height) / 2), margin
+    end,
+    right = function()
+      return math.floor((lines - height) / 2), columns - width - margin
+    end,
+    ["top-left"] = function()
+      return margin, margin
+    end,
+    ["top-right"] = function()
+      return margin, columns - width - margin
+    end,
+    ["bottom-left"] = function()
+      return lines - height - margin, margin
+    end,
+    ["bottom-right"] = function()
+      return lines - height - margin, columns - width - margin
+    end,
+  }
+
+  local calculate = positions[position or "center"]
+
+  if not calculate then
+    error("Invalid UI position: " .. tostring(position))
+  end
+
+  local row, col = calculate()
+
+  return row + (opts.row_offset or 0),
+    col + (opts.col_offset or 0)
+end
+
 --- Calculate the position required to center a rectangle.
 ---@param width integer
 ---@param height integer
 ---@return integer row
 ---@return integer col
 function M.center(width, height)
-  local columns, lines = M.editor_size()
-
-  return math.floor((lines - height) / 2),
-    math.floor((columns - width) / 2)
+  return M.position("center", width, height)
 end
 
 --- Create a floating window configuration.
 ---
 --- Width and height may be ratios or absolute dimensions.
+--- Set position to place the window automatically.
 ---@param opts? table
 ---@return table
 function M.float(opts)
   opts = opts or {}
 
   local width, height = M.size(opts)
+  local position = opts.position
 
-  return vim.tbl_extend("force", {}, opts, {
+  local config = vim.tbl_extend("force", {}, opts, {
     width = width,
     height = height,
   })
+
+  config.position = nil
+  config.margin = nil
+  config.row_offset = nil
+  config.col_offset = nil
+
+  if position then
+    local row, col = M.position(position, width, height, opts)
+
+    config.row = opts.row or row
+    config.col = opts.col or col
+  end
+
+  return config
 end
 
 --- Create a centered floating window configuration.
----
---- Width and height may be ratios or absolute dimensions.
 ---@param opts? table
 ---@return table
 function M.centered_float(opts)
   opts = opts or {}
 
-  local width, height = M.size(opts)
-  local row, col = M.center(width, height)
-
-  return vim.tbl_extend("force", {}, opts, {
+  return M.float(vim.tbl_extend("force", {}, opts, {
     relative = opts.relative or "editor",
     anchor = opts.anchor or "NW",
-    width = width,
-    height = height,
-    row = row,
-    col = col,
-  })
+    position = "center",
+  }))
 end
 
 return M
