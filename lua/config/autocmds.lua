@@ -1,4 +1,5 @@
 local autocmd = require("core.autocmd")
+local keymap = require("core.keymap")
 
 local yank = autocmd.group("yank", { clear = true })
 local numbers = autocmd.group("numbers", { clear = true })
@@ -71,7 +72,6 @@ autocmd.create("FileType", {
     "qf",
   },
   callback = function(args)
-    local keymap = require("core.keymap")
     local opts = {
       desc = "Close window",
       buffer = args.buf,
