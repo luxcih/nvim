@@ -2,12 +2,14 @@ local command = require("core.command")
 
 -- Theme management
 command.create("Theme", function(opts)
+  local theme = require("core.theme")
+
   if opts.args == "" then
-    require("core.theme").pick()
+    theme.pick()
     return
   end
 
-  require("core.theme").save(opts.args)
+  theme.set(opts.args)
 end, {
   nargs = "?",
   complete = "color",
