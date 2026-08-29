@@ -40,7 +40,7 @@ autocmd.create("LspAttach", {
     end, { desc = "References", buf = buf })
 
     keymap.set("n", "K", vim.lsp.buf.hover, { desc = "Hover", buf = buf })
-    keymap.set("n", "<C-k>", vim.lsp.buf.signature_help, { desc = "Signature Help", buf = buf })
+    keymap.set("n", "gK", vim.lsp.buf.signature_help, { desc = "Signature Help", buf = buf })
 
     keymap.set("n", "<Leader>rn", vim.lsp.buf.rename, { desc = "Rename", buf = buf })
     keymap.set("n", "<Leader>ca", vim.lsp.buf.code_action, { desc = "Code Action", buf = buf })
