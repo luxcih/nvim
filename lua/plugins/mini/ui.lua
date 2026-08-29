@@ -1,0 +1,8 @@
+require("mini.cmdline").setup()
+require("mini.diff").setup()
+require("mini.git").setup()
+require("mini.hipatterns").setup()
+require("mini.icons").setup()
+require("mini.keymap").setup()
+require("mini.notify").setup()
+require("mini.statusline").setup()
