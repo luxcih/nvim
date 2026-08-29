@@ -1,6 +1,7 @@
 return {
+  default = "catppuccin-mocha",
+
   fallbacks = {
-    "catppuccin-mocha",
     "catppuccin",
     "default",
   },
