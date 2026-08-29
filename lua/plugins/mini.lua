@@ -2,41 +2,50 @@ local keymap = require("core.keymap")
 local ui = require("core.ui")
 
 local setup = {
-  cmdline = {},
-  comment = {},
-  completion = {},
-  diff = {},
-  extra = {},
-  git = {},
-  hipatterns = {},
-  icons = {},
-  indentscope = {
-    draw = {
-      animation = require("mini.indentscope").gen_animation.none(),
+  { "cmdline", {} },
+  { "comment", {} },
+  { "completion", {} },
+  { "diff", {} },
+  { "extra", {} },
+  { "git", {} },
+  { "hipatterns", {} },
+  { "icons", {} },
+  {
+    "indentscope",
+    {
+      draw = {
+        animation = require("mini.indentscope").gen_animation.none(),
+      },
     },
   },
-  jump = {},
-  jump2d = {},
-  keymap = {},
-  move = {},
-  notify = {},
-  pairs = {},
-  snippets = {
-    snippets = {
-      require("mini.snippets").gen_loader.from_lang(),
+  { "jump", {} },
+  { "jump2d", {} },
+  { "keymap", {} },
+  { "move", {} },
+  { "notify", {} },
+  { "pairs", {} },
+  {
+    "snippets",
+    {
+      snippets = {
+        require("mini.snippets").gen_loader.from_lang(),
+      },
     },
   },
-  statusline = {},
-  surround = {},
-  pick = {
-    window = {
-      config = ui.centered_float,
+  { "statusline", {} },
+  { "surround", {} },
+  {
+    "pick",
+    {
+      window = {
+        config = ui.centered_float,
+      },
     },
   },
 }
 
-for module, opts in pairs(setup) do
-  require("mini." .. module).setup(opts)
+for _, module in ipairs(setup) do
+  require("mini." .. module[1]).setup(module[2])
 end
 
 keymap.set("n", "<Leader>gh", MiniDiff.toggle_overlay, { desc = "Toggle Git Diff Overlay" })
