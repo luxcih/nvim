@@ -1,4 +1,5 @@
 local keymap = require("core.keymap")
+local extra = require("mini.extra")
 
 keymap.set("n", "<Leader>gh", MiniDiff.toggle_overlay, {
   desc = "Toggle Git Diff Overlay",
@@ -16,15 +17,15 @@ keymap.set("n", "<Leader>fg", MiniPick.builtin.grep_live, {
   desc = "Live Grep",
 })
 
-keymap.set("n", "<Leader>fd", MiniExtra.pickers.diagnostic, {
+keymap.set("n", "<Leader>fd", extra.pickers.diagnostic, {
   desc = "Diagnostics",
 })
 
-keymap.set("n", "<Leader>fc", MiniExtra.pickers.commands, {
+keymap.set("n", "<Leader>fc", extra.pickers.commands, {
   desc = "Commands",
 })
 
-keymap.set("n", "<Leader>km", MiniExtra.pickers.keymaps, {
+keymap.set("n", "<Leader>km", extra.pickers.keymaps, {
   desc = "Keymaps",
 })
 
