@@ -6,7 +6,6 @@ vim.pack.add({ -- Colorschemes
   { src = "https://github.com/rose-pine/neovim", name = "rose-pine" },
 })
 
-require("plugins.colorschemes")
 
 vim.pack.add({ -- Plugins
   "https://github.com/folke/lazydev.nvim",
