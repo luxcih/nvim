@@ -4,11 +4,11 @@ require("vim._core.ui2").enable()
 require("config.globals")
 require("config.options")
 
--- Plugins
-require("plugins")
-
 -- Core systems
 require("core.theme").init()
+
+-- Plugins
+require("plugins")
 
 -- Configuration
 require("config.keymaps")
