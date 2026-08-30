@@ -10,8 +10,8 @@ require("oil").setup({
     win_options = {
       winblend = vim.o.winblend,
     },
-    override = function()
-      return ui.centered_float()
+    override = function(conf)
+      return vim.tbl_extend("force", conf, ui.centered_float())
     end,
   },
   keymaps = {
